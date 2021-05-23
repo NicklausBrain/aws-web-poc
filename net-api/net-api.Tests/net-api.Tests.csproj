@@ -23,6 +23,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\net-api\net-api.csproj" />
+    <ProjectReference Include="..\net-api\net-api.csproj" />
   </ItemGroup>
 </Project>
