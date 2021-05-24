@@ -11,3 +11,9 @@ Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://cho
 choco install terraform --version 0.15.3
 
 choco install terraformer --version 0.8.13
+
+#choco uninstall terraform
+#choco uninstall terraformer
+
+#terraform init
+#terraformer import aws --resources="*" --filter="Name=tags.iac-tst" --regions="us-east-1"
