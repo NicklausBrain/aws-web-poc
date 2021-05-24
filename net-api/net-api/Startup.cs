@@ -53,7 +53,6 @@ namespace net_api
 
                 app.UseSwaggerUI(c =>
                 {
-                    c.RoutePrefix = string.Empty;
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sake2Win API V1");
                 });
             });
