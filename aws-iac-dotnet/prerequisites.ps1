@@ -3,6 +3,7 @@ npm install -g aws-cdk
 
 #aws configure
 #cdk init app --language csharp
+#cdk bootstrap
 
 ## Useful commands
 
@@ -12,3 +13,5 @@ npm install -g aws-cdk
 #* `cdk deploy`       deploy this stack to your default AWS account/region
 #* `cdk diff`         compare deployed stack with current state
 #* `cdk docs`         open CDK documentation
+
+#https://cdkworkshop.com/40-dotnet.html

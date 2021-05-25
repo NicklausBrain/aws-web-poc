@@ -23,8 +23,8 @@ namespace AwsIacDotnet
             var backendApp = new Function(this, "iac-tst2-lambda", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1, // execution environment
-                                                   // Code = Code.FromAsset("lambda"), // Code loaded from the "lambda" directory
-                Handler = "net-api::net_api.LambdaEntryPoint::FunctionHandlerAsync", // file is "hello", function is "handler"
+                Code = Code.FromAsset(@"C:\Projects\aws-web-poc\net-api\net-api\bin\Release\netcoreapp3.1\net-api.zip"), // Code loaded from the "lambda" directory
+                Handler = "net-api::net_api.LambdaEntryPoint::FunctionHandlerAsync", // lambda handler id
                 MemorySize = 512,
             });
 
@@ -39,22 +39,22 @@ namespace AwsIacDotnet
                 Url = s3WebSite.BucketWebsiteUrl,
             });
 
-            // defines an API Gateway REST API resource backed by our "hello" function.
+            // defines an API Gateway REST API resource backed by our function.
             var httpApi = new HttpApi(this, "web-site", new HttpApiProps
             {
-                //DefaultIntegration = new HttpIntegration(this, "", )
+                DefaultIntegration = frontendIntegration,
             });
 
             httpApi.AddRoutes(new AddRoutesOptions
             {
-                Path = "api/{proxy+}",
+                Path = "/api/{proxy+}",
                 Methods = new[] { HttpMethod.ANY },
                 Integration = backendIntegration
             });
 
             httpApi.AddRoutes(new AddRoutesOptions
             {
-                Path = "swagger/{proxy+}",
+                Path = "/swagger/{proxy+}",
                 Methods = new[] { HttpMethod.GET },
                 Integration = backendIntegration
             });
