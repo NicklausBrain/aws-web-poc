@@ -17,3 +17,7 @@ choco install terraformer --version 0.8.13
 
 #terraform init
 #terraformer import aws --resources="*" --filter="Name=tags.iac-tst" --regions="us-east-1"
+#aws resourcegroupstaggingapi get-resources
+#terraformer import aws --resources="*" --filter="Name=tags.iac-tst" --regions="us-east-1" --compact
+#$toDelete = Get-ChildItem './generated/*/**' -Recurse | Where-Object { [string]::IsNullOrWhiteSpace((cat $_)) }
+#foreach ($q in $toDelete){  rmdir $q.DirectoryName -Force -Confirm:$false -Recurse  }
