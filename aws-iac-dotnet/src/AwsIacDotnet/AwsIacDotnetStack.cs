@@ -14,6 +14,7 @@ namespace AwsIacDotnet
 
             var s3WebSite = new Bucket(this, "iac-tst2-s3", new BucketProps
             {
+                BucketName = "iac-tst2-s3",
                 Versioned = true,
                 PublicReadAccess = true,
                 WebsiteIndexDocument = "index.html",
@@ -22,6 +23,7 @@ namespace AwsIacDotnet
             // Defines a new lambda resource
             var backendApp = new Function(this, "iac-tst2-lambda", new FunctionProps
             {
+                FunctionName = "iac-tst2-lambda",
                 Runtime = Runtime.DOTNET_CORE_3_1, // execution environment
                 Code = Code.FromAsset(@"C:\Projects\aws-web-poc\net-api\net-api\bin\Release\netcoreapp3.1\net-api.zip"), // Code loaded from the "lambda" directory
                 Handler = "net-api::net_api.LambdaEntryPoint::FunctionHandlerAsync", // lambda handler id
@@ -40,8 +42,9 @@ namespace AwsIacDotnet
             });
 
             // defines an API Gateway REST API resource backed by our function.
-            var httpApi = new HttpApi(this, "web-site", new HttpApiProps
+            var httpApi = new HttpApi(this, "iac-tst2-gate", new HttpApiProps
             {
+                ApiName = "iac-tst2-gate",
                 DefaultIntegration = frontendIntegration,
             });
 
