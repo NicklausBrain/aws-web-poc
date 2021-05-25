@@ -1,7 +1,4 @@
 ﻿using Amazon.CDK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AwsIacDotnet
 {
@@ -10,7 +7,7 @@ namespace AwsIacDotnet
         public static void Main(string[] args)
         {
             var app = new App();
-            new AwsIacDotnetStack(app, "AwsIacDotnetStack", new StackProps
+            new AwsIacDotnetStack(app, "iac-tst2-stack", new StackProps
             {
                 // If you don't specify 'env', this stack will be environment-agnostic.
                 // Account/Region-dependent features and context lookups will not work,
@@ -28,13 +25,12 @@ namespace AwsIacDotnet
 
                 // Uncomment the next block if you know exactly what Account and Region you
                 // want to deploy the stack to.
-                /*
+
                 Env = new Amazon.CDK.Environment
                 {
-                    Account = "123456789012",
+                    Account = "AKIA3BHF37CD7NJQZB5K",
                     Region = "us-east-1",
                 }
-                */
 
                 // For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
             });
