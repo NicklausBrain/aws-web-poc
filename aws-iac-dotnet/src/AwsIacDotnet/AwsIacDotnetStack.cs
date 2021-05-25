@@ -10,18 +10,18 @@ namespace AwsIacDotnet
     {
         internal AwsIacDotnetStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            // The code that defines your stack goes here
-
-            var s3WebSite = new Bucket(this, "iac-tst2-s3", new BucketProps
+            // Web site s3 bucket
+            var webSiteS3= new Bucket(this, "iac-tst2-s3", new BucketProps
             {
                 BucketName = "iac-tst2-s3",
-                Versioned = true,
+                Versioned = false,
                 PublicReadAccess = true,
                 WebsiteIndexDocument = "index.html",
+                WebsiteErrorDocument = "error.html",
             });
 
-            // Defines a new lambda resource
-            var backendApp = new Function(this, "iac-tst2-lambda", new FunctionProps
+            // Dotnet API lambda
+            var apiLambda = new Function(this, "iac-tst2-lambda", new FunctionProps
             {
                 FunctionName = "iac-tst2-lambda",
                 Runtime = Runtime.DOTNET_CORE_3_1, // execution environment
@@ -30,18 +30,19 @@ namespace AwsIacDotnet
                 MemorySize = 512,
             });
 
+            #region API Gateway Config
+
             var backendIntegration = new LambdaProxyIntegration(new LambdaProxyIntegrationProps
             {
-                Handler = backendApp,
+                Handler = apiLambda,
             });
 
             var frontendIntegration = new HttpProxyIntegration(new HttpProxyIntegrationProps
             {
                 Method = HttpMethod.GET,
-                Url = s3WebSite.BucketWebsiteUrl,
+                Url = webSiteS3.BucketWebsiteUrl,
             });
 
-            // defines an API Gateway REST API resource backed by our function.
             var httpApi = new HttpApi(this, "iac-tst2-gate", new HttpApiProps
             {
                 ApiName = "iac-tst2-gate",
@@ -61,6 +62,8 @@ namespace AwsIacDotnet
                 Methods = new[] { HttpMethod.GET },
                 Integration = backendIntegration
             });
+
+            #endregion
         }
     }
 }

@@ -11,7 +11,7 @@ namespace net_api.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return Enumerable.Range(1, 10).Select(p => Math.Pow(2, p)).Select(s => $"{s}");
+            return Enumerable.Range(1, 11).Select(p => Math.Pow(2, p)).Select(s => $"{s}");
         }
 
         [HttpGet("{id}")]
