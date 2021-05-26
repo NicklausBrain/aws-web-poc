@@ -15,3 +15,4 @@ npm install -g aws-cdk
 #* `cdk docs`         open CDK documentation
 
 #https://cdkworkshop.com/40-dotnet.html
+#https://intro-to-cdk.workshop.aws/the-workshop/2-create-vpc.html

@@ -1,8 +1,9 @@
 using Amazon.CDK;
-using Amazon.CDK.AWS.Lambda;
-using Amazon.CDK.AWS.S3;
 using Amazon.CDK.AWS.APIGatewayv2;
 using Amazon.CDK.AWS.APIGatewayv2.Integrations;
+using Amazon.CDK.AWS.Cognito;
+using Amazon.CDK.AWS.Lambda;
+using Amazon.CDK.AWS.S3;
 
 namespace AwsIacDotnet
 {
@@ -10,8 +11,34 @@ namespace AwsIacDotnet
     {
         internal AwsIacDotnetStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
+            #region Identity
+
+            var userPool = new UserPool(this, "iac-tst2-user-pool", new UserPoolProps
+            {
+                UserPoolName = "iac-tst2-user-pool",
+                SignInCaseSensitive = false,
+                SignInAliases = new SignInAliases
+                {
+                    Email = true,
+                }
+            });
+
+            var client = userPool.AddClient("iac-tst2-client", new UserPoolClientOptions
+            {
+                AuthFlows = new AuthFlow
+                {
+                    UserPassword = true,
+                    AdminUserPassword = true,
+                },
+                SupportedIdentityProviders = new[] { UserPoolClientIdentityProvider.COGNITO },
+            });
+
+            var clientId = client.UserPoolClientId; // to be used as env variable for lambda (?)
+
+            #endregion
+
             // Web site s3 bucket
-            var webSiteS3= new Bucket(this, "iac-tst2-s3", new BucketProps
+            var webSiteS3 = new Bucket(this, "iac-tst2-s3", new BucketProps
             {
                 BucketName = "iac-tst2-s3",
                 Versioned = false,
@@ -63,7 +90,41 @@ namespace AwsIacDotnet
                 Integration = backendIntegration
             });
 
-            #endregion
+            #endregion API Gateway Config
+
+            #region Storages
+
+            // Media content s3 bucket
+            //var mediaContentS3 = new Bucket(this, "iac-tst2-s3", new BucketProps
+            //{
+            //    BucketName = "iac-tst2-s3",
+            //    Versioned = false,
+            //    PublicReadAccess = true,
+            //    WebsiteIndexDocument = "index.html",
+            //    WebsiteErrorDocument = "error.html",
+            //});
+
+            // Example automatically generated without compilation. See https://github.com/aws/jsii/issues/826
+            //var cluster = new DatabaseCluster(this, "iac-tst2-doc-db", new DatabaseClusterProps
+            //{
+            //    InstanceType = InstanceType.Of(InstanceClass.STANDARD3, InstanceSize.SMALL),
+            //    MasterUser = new Login
+            //    {
+            //        Username = "sa",
+            //        // Password = new SecretValue("Password12"),
+            //    },
+            //    Vpc = new Vpc(this, "iac-tst2-doc-db-vpc", new VpcProps
+            //    {
+            //        Cidr = "10.0.0.0/16",
+            //    }),
+            //    VpcSubnets = new SubnetSelection
+            //    {
+            //        SubnetType = SubnetType.PUBLIC,
+            //    }
+            //});
+
+
+            #endregion Storages
         }
     }
 }

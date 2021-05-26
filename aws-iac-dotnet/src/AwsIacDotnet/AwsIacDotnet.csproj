@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -12,8 +12,11 @@
     <PackageReference Include="Amazon.CDK" Version="1.105.0" />
     <PackageReference Include="Amazon.CDK.AWS.APIGatewayv2" Version="1.105.0" />
     <PackageReference Include="Amazon.CDK.AWS.APIGatewayv2.Integrations" Version="1.105.0" />
+    <PackageReference Include="Amazon.CDK.AWS.DocDB" Version="1.105.0" />
     <PackageReference Include="Amazon.CDK.AWS.Lambda" Version="1.105.0" />
     <PackageReference Include="Amazon.CDK.AWS.S3" Version="1.105.0" />
+    <PackageReference Include="Amazon.CDK.AWS.EC2" Version="1.105.0" />
+    <PackageReference Include="Amazon.CDK.AWS.Cognito" Version="1.105.0" />
 
     <!-- jsii Roslyn analyzers (un-comment to obtain compile-time checks for missing required props
     <PackageReference Include="Amazon.Jsii.Analyzers" Version="*" PrivateAssets="all" />
